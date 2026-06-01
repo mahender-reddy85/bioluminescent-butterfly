@@ -1,0 +1,481 @@
+:root {
+  --bg-top: hsl(235, 60%, 7%);
+  --bg-bottom: hsl(155, 45%, 4%);
+  --glow-pink: rgba(255, 20, 147, 0.6);
+  --glow-sparkle: rgba(255, 105, 180, 0.4);
+  --grass-bg-stop1: hsl(120, 60%, 25%);
+  --grass-bg-stop2: hsl(120, 80%, 8%);
+  --grass-fg-stop1: hsl(90, 85%, 45%);
+  --grass-fg-stop2: hsl(120, 70%, 15%);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, var(--bg-top), var(--bg-bottom));
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  cursor: none;
+  position: relative;
+  animation: fadeIn 1s ease;
+}
+
+@media (max-width: 768px) {
+  body {
+    cursor: auto;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(1.02);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.vignette {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, transparent 20%, rgba(5, 10, 15, 0.3) 60%, rgba(2, 4, 6, 0.85) 100%);
+  pointer-events: none;
+  z-index: 18;
+  mix-blend-mode: multiply;
+}
+
+.scene3d {
+  perspective: 1200px;
+  perspective-origin: 50% 50%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.butterfly_container {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100px;
+  height: 100px;
+  transform-origin: 50% 50%;
+  transform-style: preserve-3d;
+  transition: transform 0.08s linear;
+  pointer-events: none;
+  filter: drop-shadow(0 0 12px var(--glow-pink)) drop-shadow(0 0 25px rgba(186, 85, 211, 0.4));
+  will-change: transform;
+  animation:
+    glowPulse 3s infinite ease-in-out,
+    butterflyFloat 4s ease-in-out infinite;
+  z-index: 10;
+}
+
+@media (max-width: 768px) {
+  .butterfly_container {
+    width: 70px;
+    height: 70px;
+    filter: drop-shadow(0 0 8px var(--glow-pink)) drop-shadow(0 0 15px rgba(186, 85, 211, 0.4));
+  }
+}
+
+@keyframes glowPulse {
+
+  0%,
+  100% {
+    filter: drop-shadow(0 0 10px var(--glow-pink)) drop-shadow(0 0 20px rgba(186, 85, 211, 0.3));
+  }
+
+  50% {
+    filter: drop-shadow(0 0 20px rgba(255, 20, 147, 0.95)) drop-shadow(0 0 35px rgba(218, 112, 214, 0.7));
+  }
+}
+
+.butterfly_container var {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 100px;
+  height: 100px;
+  transform: translate(-50%, -50%);
+  transform-style: preserve-3d;
+}
+
+.butterfly_container var.rotate3d {
+  transform: translate(-50%, -50%) rotate3d(1, 0.5, 0, 70deg);
+}
+
+.butterfly_container var.translate3d {
+  transform: translate(-50%, -50%);
+}
+
+.butterfly_container figure.butterfly {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 100px;
+  height: 100px;
+  transform: translate(-50%, -50%);
+  transform-style: preserve-3d;
+  transform-origin: 50% 50%;
+}
+
+.butterfly_container figure.butterfly .wing {
+  position: absolute;
+  width: 50px;
+  height: 100px;
+  transform-style: preserve-3d;
+}
+
+@media (max-width: 768px) {
+  .butterfly_container var {
+    width: 70px;
+    height: 70px;
+  }
+
+  .butterfly_container figure.butterfly {
+    width: 70px;
+    height: 70px;
+  }
+
+  .butterfly_container figure.butterfly .wing {
+    width: 35px;
+    height: 70px;
+    position: absolute;
+    top: 0;
+  }
+
+  .butterfly_container figure.butterfly .wing.left {
+    left: 0;
+    transform-origin: right center;
+  }
+
+  .butterfly_container figure.butterfly .wing.right {
+    right: 0;
+    transform-origin: left center;
+  }
+}
+
+.butterfly_container figure.butterfly .wing.right {
+  transform-origin: 50px 50px;
+  transform: scaleX(-1);
+}
+
+.butterfly_container figure.butterfly .wing.left {
+  transform-origin: 50px 50px;
+}
+
+.butterfly_container figure.butterfly .wing use {
+  display: block;
+  transform-style: preserve-3d;
+  fill: url(#wingGradient);
+  stroke: hsl(325, 100%, 65%);
+  stroke-width: 0.5px;
+}
+
+.butterfly_container figure.butterfly .wing.right use {
+  fill: url(#wingGradient2);
+  stroke: hsl(325, 100%, 65%);
+  stroke-width: 0.5px;
+}
+
+.svg-defs {
+  position: absolute;
+  height: 0;
+  width: 0;
+  overflow: hidden;
+}
+
+.bg_st0 {
+  clip-path: url(#bg_SVGID_2_);
+}
+
+.fg_st0 {
+  clip-path: url(#fg_SVGID_2_);
+}
+
+.garden {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  animation: grassMove 9s ease-in-out infinite alternate;
+}
+
+@keyframes grassMove {
+  from {
+    transform: translateX(0px);
+  }
+
+  to {
+    transform: translateX(-10px);
+  }
+}
+
+@keyframes butterflyFloat {
+  0%,
+  100% {
+    margin-top: 0;
+  }
+
+  50% {
+    margin-top: -10px;
+  }
+}
+
+.grass-svg {
+  position: absolute;
+  bottom: -40px;
+  height: 38vh;
+  width: 110%;
+  display: block;
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .grass-svg {
+    height: 45vh;
+    width: 120%;
+  }
+}
+
+.grass-svg.bg {
+  left: -5%;
+  transform: scale(0.95);
+  transform-origin: bottom left;
+  opacity: 0.75;
+  filter: blur(2px) brightness(0.6);
+  z-index: 5;
+}
+
+.grass-svg.fg {
+  right: -5%;
+  transform: scaleX(-1) scale(1.15);
+  transform-origin: bottom right;
+  filter: drop-shadow(0 -8px 25px rgba(2, 6, 4, 0.7)) brightness(1) contrast(1.05);
+  z-index: 15;
+}
+
+.fireflies {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 6;
+  overflow: hidden;
+}
+
+.firefly {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: radial-gradient(circle, hsl(68, 100%, 75%) 0%, hsla(68, 100%, 75%, 0) 80%);
+  filter: drop-shadow(0 0 6px hsl(68, 100%, 55%));
+  opacity: 0;
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .firefly {
+    width: 5px;
+    height: 5px;
+  }
+}
+
+.ui-overlay {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  color: white;
+  pointer-events: none;
+  z-index: 20;
+  opacity: .75;
+  animation: fadeInUI 1.5s ease-out 0.5s forwards;
+}
+
+.ui-overlay h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 300;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, #ffffff, hsl(325, 100%, 75%));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.ui-overlay p {
+  margin: 8px 0 0 0;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: hsla(0, 0%, 100%, 0.45);
+}
+
+.ui-overlay .mobile-message {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .ui-overlay .desktop-message {
+    display: none;
+  }
+
+  .ui-overlay .mobile-message {
+    display: block;
+  }
+
+  .ui-overlay {
+    top: 20px;
+    left: 20px;
+  }
+
+  .ui-overlay h1 {
+    font-size: 18px;
+    letter-spacing: 2px;
+  }
+
+  .ui-overlay p {
+    font-size: 9px;
+    letter-spacing: 1px;
+  }
+}
+
+@keyframes fadeInUI {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.sparkle-trail {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: hsl(325, 100%, 75%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9;
+  filter: drop-shadow(0 0 4px hsl(325, 100%, 65%));
+  opacity: 0.8;
+  animation: sparkleFade 1.2s ease-out forwards;
+}
+
+@media (max-width: 768px) {
+  .sparkle-trail {
+    width: 3px;
+    height: 3px;
+  }
+}
+
+@keyframes sparkleFade {
+  0% {
+    transform: scale(1) translate(0, 0);
+    opacity: 0.8;
+  }
+
+  100% {
+    transform: scale(0.2) translate(var(--dx), var(--dy));
+    opacity: 0;
+  }
+}
+
+@keyframes floatDrift {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  33% {
+    transform: translate(var(--dx1), var(--dy1)) scale(1.15);
+  }
+
+  66% {
+    transform: translate(var(--dx2), var(--dy2)) scale(0.85);
+  }
+
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+@keyframes pulseFade {
+
+  0%,
+  100% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: var(--max-opacity);
+  }
+}
+
+.mobile-warning {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+@media (max-width: 1024px) {
+  .mobile-warning {
+    display: flex;
+  }
+}
+
+.sad-emoji {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 20px;
+}
+
+.mobile-warning h2 {
+  color: #333;
+  font-size: 24px;
+  font-weight: 400;
+  margin: 0 0 20px 0;
+  letter-spacing: 2px;
+  text-align: center;
+  font-family: 'Georgia', serif;
+}
+
+.mobile-warning p {
+  color: #666;
+  font-size: 14px;
+  margin: 10px 0;
+  line-height: 1.6;
+  text-align: center;
+  font-family: 'Georgia', serif;
+}
